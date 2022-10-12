@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'books/new'
-  get 'books/index'
+  post 'books' => 'books#create'
+  get 'books' => 'books#index'
   get 'books/show'
   get 'books/edit'
   #上4つはresources :booksで一括処理できたはず

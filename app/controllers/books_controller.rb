@@ -1,14 +1,17 @@
 class BooksController < ApplicationController
-  def new
-  end
 
   def index
     @books = Book.all
+    @book = Book.new
+  end
 
-    @books = Book.new(books_params)
-    if @books.save
+  def create
+    @book = Book.new(book_params)
+    if @book.save
       flash[:notice] = "Book was successfully created."
+      redirect_to book_path(@book) #投稿成功ページ
     else
+      @books = Book.all
       render :index
     end
   end
@@ -17,5 +20,12 @@ class BooksController < ApplicationController
   end
 
   def edit
+  end
+
+
+  private #←一種の境界線、「ここから下はこのcontrollerの中でしか呼び出せません」という意味があるので、他アクション(create,index,show等)を巻き込まないように一番下に書く。
+  #↓以下ストロングパラメータ
+  def book_params
+    params.require(:book).permit(:title, :body)
   end
 end
