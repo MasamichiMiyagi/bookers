@@ -35,8 +35,10 @@ class BooksController < ApplicationController
 
   def destroy
     book = Book.find(params[:id])
-    book.destroy
-    redirect_to book_path
+    if book.destroy
+      flash[:notice] = "Book was successfully destroyed."
+      render :index
+    end
   end
 
   private #←一種の境界線、「ここから下はこのcontrollerの中でしか呼び出せません」という意味があるので、他アクション(create,index,show等)を巻き込まないように一番下に書く。
